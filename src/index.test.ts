@@ -1,7 +1,7 @@
 import { greet } from "./index"
 
-describe("test", () => {
-    it("should say hello", () => {
-        expect(greet()).toBe("Hello world!")
+describe("environnement is set", () => {
+    it("should be able to retrieve Marvel API Token", () => {
+        expect(process.env.MARVEL_API_KEY).not.toBeFalsy();
     })
 })
