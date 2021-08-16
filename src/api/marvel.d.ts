@@ -31,6 +31,15 @@ export interface ComicsByCharacter {
   __v: number;
 }
 
+export interface ComicIdsByCharacter {
+  thumbnail: Thumbnail;
+  comics: string[];
+  _id: string;
+  name: string;
+  description: string;
+  __v: number;
+}
+
 export interface GetComicsReturn {
   count: number;
   limit: number;

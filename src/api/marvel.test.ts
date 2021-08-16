@@ -1,10 +1,9 @@
 import MarvelAPI from "./marvel";
 import axios from "axios";
-import { Comic, ComicsByCharacter } from "./marvel.d";
+import { Comic, ComicIdsByCharacter, ComicsByCharacter } from "./marvel.d";
+const mockedAxiosGet = jest.spyOn(axios, "get");
 
 describe("request API /comics", () => {
-  const mockedAxiosGet = jest.spyOn(axios, "get");
-
   const mockOnce = (comics: Array<Comic>, limit: number = 100) =>
     mockedAxiosGet.mockImplementationOnce(() =>
       Promise.resolve({
@@ -65,8 +64,6 @@ describe("request API /comics", () => {
 });
 
 describe("request API /comics/:characterId", () => {
-  const mockedAxiosGet = jest.spyOn(axios, "get");
-
   const comicByCharacter = {
     __v: 0,
     _id: "characterId",
@@ -111,5 +108,38 @@ describe("request API /comics/:characterId", () => {
     );
     const result = await MarvelAPI.getComicsByCharacter("anything");
     expect(result).toEqual(comicByCharacter);
+  });
+});
+
+describe("request API /characters", () => {
+  it("should be able to send expected params and retrieve data", async () => {
+    const data: ComicIdsByCharacter = {
+      __v: 0,
+      _id: "id",
+      comics: ["id"],
+      description: "description",
+      name: "name",
+      thumbnail: {
+        extension: "jpg",
+        path: "",
+      },
+    };
+    mockedAxiosGet.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200, data })
+    );
+    const filter = { limit: 10, skip: 123, name: "character" };
+
+    const result = await MarvelAPI.getCharacters(filter);
+    expect(mockedAxiosGet).toHaveBeenLastCalledWith(
+      "/characters",
+      expect.objectContaining({
+        baseURL: expect.any(String),
+        params: expect.objectContaining({
+          ...filter,
+          apiKey: expect.any(String),
+        }),
+      })
+    );
+    expect(result).toEqual(data);
   });
 });
