@@ -68,7 +68,9 @@ describe("request API /comics/:characterId", () => {
   const mockedAxiosGet = jest.spyOn(axios, "get");
 
   it("should be able to send pagination and Env params", async () => {
-    mockedAxiosGet.mockImplementationOnce(() => Promise.resolve({}));
+    mockedAxiosGet.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200, data: null })
+    );
 
     const result = await MarvelAPI.getComicsByCharacter("anything");
     expect(mockedAxiosGet).toHaveBeenLastCalledWith(
@@ -81,4 +83,6 @@ describe("request API /comics/:characterId", () => {
       })
     );
   });
+
+  it("should be able have no data", async () => {});
 });

@@ -3,7 +3,7 @@ export interface Pagination {
   skip?: number;
 }
 
-export interface MarvelResponse<T> {
+export interface MarvelApiResponse<T> {
   count: number;
   limit: number;
   results: T[];
@@ -20,7 +20,7 @@ export interface Comic {
   __v: number;
 }
 
-export interface GetComicsResponse {
+export interface GetComicsReturn {
   count: number;
   limit: number;
   comics: Comic[];

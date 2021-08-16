@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
   Comic,
-  GetComicsResponse,
-  MarvelResponse,
+  GetComicsReturn,
+  MarvelApiResponse,
   Pagination,
 } from "./marvel.d";
 
@@ -19,13 +19,13 @@ export const getComics = async (params?: {
   title?: string;
 }) =>
   axios
-    .get<MarvelResponse<Comic>>("/comics", {
+    .get<MarvelApiResponse<Comic>>("/comics", {
       ...config,
       params: { ...config.params, ...params },
     })
     .then((response) => response.data)
     .then((data) =>
-      Promise.resolve<GetComicsResponse>({
+      Promise.resolve<GetComicsReturn>({
         count: data.count,
         limit: data.limit,
         comics: [...data.results],
@@ -33,7 +33,7 @@ export const getComics = async (params?: {
     );
 
 export const getComicsByCharacter = async (characterId: string) =>
-  axios.get("/comics/" + characterId, config).then((reponse) => reponse.data);
+  axios.get("/comics/" + characterId, config).then((response) => response.data);
 
 export default {
   getComics,
