@@ -1,3 +1,8 @@
+export interface Pagination {
+  limit?: number;
+  skip?: number;
+}
+
 export interface MarvelResponse<T> {
   count: number;
   limit: number;
