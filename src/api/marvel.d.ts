@@ -19,3 +19,9 @@ export interface Comic {
   description: string;
   __v: number;
 }
+
+export interface GetComicsResponse {
+  count: number;
+  limit: number;
+  comics: Comic[];
+}

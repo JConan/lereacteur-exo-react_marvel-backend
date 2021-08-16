@@ -5,13 +5,13 @@ import { Comic } from "./marvel.d";
 describe("request API /comics", () => {
   const mockedAxiosGet = jest.spyOn(axios, "get");
 
-  const mockOnce = (comics: Array<Comic>) =>
+  const mockOnce = (comics: Array<Comic>, limit: number = 100) =>
     mockedAxiosGet.mockImplementationOnce(() =>
       Promise.resolve({
         status: 200,
         data: {
           count: comics.length,
-          limit: 100,
+          limit,
           results: comics,
         },
       })
@@ -48,19 +48,19 @@ describe("request API /comics", () => {
     mockOnce([]); // no comics
 
     const result = await MarvelAPI.getComics();
-    expect(result).toEqual([]);
+    expect(result).toEqual({ comics: [], count: 0, limit: 100 });
   });
 
   it("should be able to retrieve single comic", async () => {
-    mockOnce([comic]);
+    mockOnce([comic], 10);
     const result = await MarvelAPI.getComics();
-    expect(result).toEqual([comic]);
+    expect(result).toEqual({ count: 1, limit: 10, comics: [comic] });
   });
 
   it("should be able to retrieve multiple comic", async () => {
     mockOnce([comic, comic]);
     const result = await MarvelAPI.getComics();
-    expect(result).toEqual([comic, comic]);
+    expect(result).toEqual({ comics: [comic, comic], count: 2, limit: 100 });
   });
 });
 

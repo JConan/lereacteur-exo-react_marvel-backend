@@ -1,5 +1,10 @@
 import axios from "axios";
-import { Comic, MarvelResponse, Pagination } from "./marvel.d";
+import {
+  Comic,
+  GetComicsResponse,
+  MarvelResponse,
+  Pagination,
+} from "./marvel.d";
 
 const config = {
   baseURL: process.env.MARVEL_API_BASEPATH,
@@ -19,7 +24,13 @@ export const getComics = async (params?: {
       params: { ...config.params, ...params },
     })
     .then((response) => response.data)
-    .then((data) => Promise.resolve<Array<Comic>>([...data.results]));
+    .then((data) =>
+      Promise.resolve<GetComicsResponse>({
+        count: data.count,
+        limit: data.limit,
+        comics: [...data.results],
+      })
+    );
 
 export const getComicsByCharacter = async (characterId: string) =>
   axios.get("/comics/" + characterId, config).then((reponse) => reponse.data);
