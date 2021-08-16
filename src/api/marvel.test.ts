@@ -1,6 +1,6 @@
 import MarvelAPI from "./marvel";
 import axios from "axios";
-import { Comic } from "./marvel.d";
+import { Comic, ComicsByCharacter } from "./marvel.d";
 
 describe("request API /comics", () => {
   const mockedAxiosGet = jest.spyOn(axios, "get");
@@ -67,7 +67,24 @@ describe("request API /comics", () => {
 describe("request API /comics/:characterId", () => {
   const mockedAxiosGet = jest.spyOn(axios, "get");
 
-  it("should be able to send pagination and Env params", async () => {
+  const comicByCharacter = {
+    __v: 0,
+    _id: "characterId",
+    comics: [
+      {
+        __v: 0,
+        _id: "comicId",
+        description: "comicDescription",
+        thumbnail: {
+          extension: "image extension",
+          path: "image path",
+        },
+        title: "comicTitle",
+      },
+    ],
+  };
+
+  it("should be able to send pagination and Env params and receive null", async () => {
     mockedAxiosGet.mockImplementationOnce(() =>
       Promise.resolve({ status: 200, data: null })
     );
@@ -82,7 +99,17 @@ describe("request API /comics/:characterId", () => {
         }),
       })
     );
+    expect(result).toEqual(null);
   });
 
-  it("should be able have no data", async () => {});
+  it("should be able to retrieve comics by character", async () => {
+    mockedAxiosGet.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        data: comicByCharacter,
+      })
+    );
+    const result = await MarvelAPI.getComicsByCharacter("anything");
+    expect(result).toEqual(comicByCharacter);
+  });
 });

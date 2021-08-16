@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   Comic,
+  ComicsByCharacter,
   GetComicsReturn,
   MarvelApiResponse,
   Pagination,
@@ -33,7 +34,9 @@ export const getComics = async (params?: {
     );
 
 export const getComicsByCharacter = async (characterId: string) =>
-  axios.get("/comics/" + characterId, config).then((response) => response.data);
+  axios
+    .get<ComicsByCharacter>("/comics/" + characterId, config)
+    .then((response) => response.data);
 
 export default {
   getComics,

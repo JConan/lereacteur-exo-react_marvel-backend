@@ -9,13 +9,24 @@ export interface MarvelApiResponse<T> {
   results: T[];
 }
 
+interface Thumbnail {
+  path: string;
+  extension: string;
+}
+
 export interface Comic {
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
+  thumbnail: Thumbnail;
   _id: string;
   title: string;
+  description: string;
+  __v: number;
+}
+
+export interface ComicsByCharacter {
+  thumbnail: Thumbnail;
+  comics: Comic[];
+  _id: string;
+  name: string;
   description: string;
   __v: number;
 }
