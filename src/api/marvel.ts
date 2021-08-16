@@ -21,6 +21,10 @@ export const getComics = async (params?: {
     .then((response) => response.data)
     .then((data) => Promise.resolve<Array<Comic>>([...data.results]));
 
+export const getComicsByCharacter = async (characterId: string) =>
+  axios.get("/comics/" + characterId, config).then((reponse) => reponse.data);
+
 export default {
   getComics,
+  getComicsByCharacter,
 };

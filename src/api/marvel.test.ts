@@ -2,7 +2,7 @@ import MarvelAPI from "./marvel";
 import axios from "axios";
 import { Comic } from "./marvel.d";
 
-describe("request data from API provider /comics", () => {
+describe("request API /comics", () => {
   const mockedAxiosGet = jest.spyOn(axios, "get");
 
   const mockOnce = (comics: Array<Comic>) =>
@@ -61,5 +61,24 @@ describe("request data from API provider /comics", () => {
     mockOnce([comic, comic]);
     const result = await MarvelAPI.getComics();
     expect(result).toEqual([comic, comic]);
+  });
+});
+
+describe("request API /comics/:characterId", () => {
+  const mockedAxiosGet = jest.spyOn(axios, "get");
+
+  it("should be able to send pagination and Env params", async () => {
+    mockedAxiosGet.mockImplementationOnce(() => Promise.resolve({}));
+
+    const result = await MarvelAPI.getComicsByCharacter("anything");
+    expect(mockedAxiosGet).toHaveBeenLastCalledWith(
+      "/comics/anything",
+      expect.objectContaining({
+        baseURL: expect.any(String),
+        params: expect.objectContaining({
+          apiKey: expect.any(String),
+        }),
+      })
+    );
   });
 });
