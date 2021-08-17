@@ -24,6 +24,8 @@ app.get("/characters", (request, response) => {
     .catch((error) => response.status(500).send(error));
 });
 
+app.get("*", (request, response) => response.status(404).send("not found"));
+
 app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.PORT}`);
 });
