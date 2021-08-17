@@ -5,7 +5,7 @@ import { getCharacters, getComics, getComicsByCharacter } from "./api/marvel";
 
 const app = express();
 
-app.use(cors);
+app.use(cors({ origin: "*" }));
 app.use(morgan("combined"));
 
 app.get("/comics", (request, response) => {
