@@ -25,5 +25,5 @@ app.get("/characters", (request, response) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`listening on port ${process.env.EXPRESS_PORT}`);
+  console.log(`listening on port ${process.env.PORT}`);
 });
