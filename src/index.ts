@@ -24,6 +24,6 @@ app.get("/characters", (request, response) => {
     .catch((error) => response.status(500).send(error));
 });
 
-app.listen(process.env.EXPRESS_PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.EXPRESS_PORT}`);
 });
