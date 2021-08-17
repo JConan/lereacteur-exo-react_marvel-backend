@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "ts-node -r dotenv/config src/index.ts",
+    "debug": "nodemon --watch 'src/index.ts' --exec 'ts-node -r dotenv/config src/index.ts'",
     "test": "jest --watch"
   },
   "devDependencies": {
